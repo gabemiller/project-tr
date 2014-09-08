@@ -55,7 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'dividedb',
+			'database'  => 'divide_tardona_cms',
 			'username'  => 'forge',
 			'password'  => 'AF9eDfhkIWXbUYJppKtF',
 			'charset'   => 'utf8',
