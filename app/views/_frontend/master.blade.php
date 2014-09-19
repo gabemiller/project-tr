@@ -33,12 +33,17 @@
                         <div class="panel-body">
 
                             <div class="row">
-                                <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
 
-                                    {{$mainMenu->asUl(array('class'=>'list-unstyled nav-menu'))}}
+                                    <button type="button" class="collapsed btn-menu hidden-md hidden-lg" data-toggle="collapse" data-target="#navCollapse">
+                                         <i class="fa fa-bars"></i> Menü
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navCollapse">
+                                        {{$mainMenu->asUl(array('class'=>'list-unstyled nav-menu'))}}
+                                    </div>
 
                                 </div>
-                                <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
                                     @yield('content')
                                 </div>
                             </div>

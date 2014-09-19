@@ -8,38 +8,17 @@ body {
     background-color:#efefef;
 }
 
-@media (max-width: 992px){
-    body {
-        margin-bottom: 860px;
-    } 
-}
-
-@media (max-width: 410px){
-    body {
-        margin-bottom: 900px;
-    } 
-}
-
-@media (max-width: 335px){
-    body {
-        margin-bottom: 1000px;
-    } 
-}
-
-
-
 footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     margin-top:40px;
-    background-color:#d6d6d6;
+    background-color:#E5E5E5;
 }
 
 footer h3{
     text-transform: uppercase;
     margin-top: 10px;
-    border-bottom: 2px dotted #646464;
 }
 
 footer dl dt{
@@ -66,11 +45,9 @@ footer a:active{
 }
 
 footer .footer-bottom{
-    /*background-color: #006d33;*/
     background-color: #F4B700;
     width: 100%;
     min-height: 40px;
-    /*color: #33A066;*/
     color: #fff;
 }
 
@@ -197,6 +174,22 @@ header h2 {
     border-radius: 0;
 }
 
+.btn-menu{
+    background-color: transparent;
+    border: 0 none;
+    margin: 0 0 5px;
+    font-size: 24px;
+    outline: none;
+    padding: 0;
+}
+
+.btn-menu:hover i.fa.fa-bars{
+    color: #F5B801;
+}
+
+.navbar-collapse{
+    padding: 0;
+}
 .nav-menu{
     width: 100%;
     background-color:#F5B801;
@@ -257,16 +250,18 @@ header h2 {
     right: 5px;
     top: 8px;
     opacity: 0.7;
-    -webkit-transition: opacity .4s ease-out 0s;
-    -moz-transition: opacity .4s ease-out 0s;
-    -ms-transition: opacity .4s ease-out 0s;
-    -o-transition: opacity .4s ease-out 0s;
-    transition: opacity .4s ease-out 0s;
-    cursor: pointer;
 }
 
-.nav-menu li i.fa.fa-bars:hover{
+.nav-menu li.active > a > i.fa.fa-bars{
     opacity: 1;
+}
+
+.nav-menu li > ul {
+    display: none;
+}
+
+.nav-menu li.active > ul {
+    display: block;
 }
 
 .pagination>li>a, .pagination>li>span {
@@ -304,15 +299,6 @@ a:active,a:hover {
     color:#F5B801;
     text-decoration:none;
 }
-
-.btn-twitter {background-color:#4099FF;color:#fff;}
-.btn-facebook {background-color:#3B5998;color:#fff;}
-.btn-google-plus {background-color:#d34836;color:#fff;}
-
-.btn-twitter:hover {background-color:#3088FF;color:#fff;}
-.btn-facebook:hover {background-color:#2A4998;color:#fff;}
-.btn-google-plus:hover {background-color:#C23836;color:#fff;}
-
 
 /**
  * Egyedi gombok
