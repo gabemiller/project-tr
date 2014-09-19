@@ -187,8 +187,42 @@ header h2 {
     color: #F5B801;
 }
 
-.navbar-collapse{
-    padding: 0;
+#mainMenu .collapse{
+    display: none;
+}
+
+#mainMenu .collapse.in{
+    display: block;
+}
+
+@media (min-width: 768px) {
+    #mainMenu .collapse{
+        display: none;
+    }
+
+    #mainMenu .collapse.in{
+        display: block;
+    }
+
+}
+
+@media (min-width: 992px ) { 
+    #mainMenu .collapse{
+        display: block!important;
+        height: auto!important;
+        padding-bottom: 0;
+        overflow: visible!important;
+    }
+}
+
+@media (min-width: 1200px) { 
+    #mainMenu .collapse{
+        display: block!important;
+        height: auto!important;
+        padding-bottom: 0;
+        overflow: visible!important;
+    }
+
 }
 .nav-menu{
     width: 100%;

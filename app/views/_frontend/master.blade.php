@@ -35,13 +35,15 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
 
-                                    <button type="button" class="collapsed btn-menu hidden-md hidden-lg" data-toggle="collapse" data-target="#navCollapse">
-                                         <i class="fa fa-bars"></i> Menü
-                                    </button>
-                                    <div class="collapse navbar-collapse" id="navCollapse">
-                                        {{$mainMenu->asUl(array('class'=>'list-unstyled nav-menu'))}}
-                                    </div>
+                                    <nav id="mainMenu">
+                                        <button type="button" class="collapsed btn-menu hidden-md hidden-lg" data-toggle="collapse" data-target="#navCollapse">
+                                            <i class="fa fa-bars"></i> Menü
+                                        </button>
 
+                                        <div class="collapse" id="navCollapse">
+                                            {{$mainMenu->asUl(array('class'=>'list-unstyled nav-menu'))}}
+                                        </div>
+                                    </nav>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
                                     @yield('content')
