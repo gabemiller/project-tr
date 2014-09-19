@@ -119,11 +119,17 @@ header {
 
 header .logo{
     margin: 20px auto;
-    background: url('/assets/town-logo.png') center center no-repeat transparent;
+    background: url('/assets/town-logo.png') center center no-repeat #fff;
     width: 200px;
     height: 200px;
     text-align: center;
     position: relative;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    -ms-border-radius: 100px;
+    -o-border-radius: 100px;
+    border-radius: 100px;
+    
 }
 
 header .logo .logo-link{
