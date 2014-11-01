@@ -19,6 +19,7 @@ class CreatePagesTable extends Migration {
             $table->text('content');
             $table->boolean('shows');
             $table->integer('gallery_id');
+			$table->boolean('is_competition');
             $table->timestamps();
         });
     }
