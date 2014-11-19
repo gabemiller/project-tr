@@ -1,7 +1,5 @@
 <?php namespace Lavary\Menu;
 
-use Illuminate\Support\Collection as Collection;
-
 class Builder {
 	
 	/**
@@ -17,6 +15,13 @@ class Builder {
 	 * @var string
 	 */
 	protected $name;
+
+	/**
+	 * The Menu configuration data
+	 *
+	 * @var array
+	 */
+	protected $conf;
 
 	/**
 	 * The route group attribute stack.
@@ -44,10 +49,15 @@ class Builder {
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct($name, $conf)
 	{
+		$this->name = $name;
+
 		// creating a laravel collection ofr storing enu items
 		$this->items = new Collection;
+
+		$this->conf = $conf;
+
 	}
 
 	/**
@@ -450,7 +460,6 @@ class Builder {
 		if( is_callable($callback) ) {
 	
 			$this->items = $this->items->filter($callback);
-	
 		}
 
 		return $this;
@@ -517,7 +526,7 @@ class Builder {
 			$items  .= "<{$item_tag}{$this->attributes($item->attr())}>";
 
 			if($item->link) {
-				$items .= $item->prepend."<a{$this->attributes($item->link->attr())} href=\"{$item->url()}\">{$item->title}</a>".$item->append;
+				$items .= "<a{$this->attributes($item->link->attr())} href=\"{$item->url()}\">{$item->title}</a>";
 			} else {
 				$items .= $item->title;
 			}
@@ -581,6 +590,19 @@ class Builder {
 	}
 
 	/**
+	 * Return configuration value by key
+	 * @param string $key
+	 *
+	 * @return string
+	 */
+	public function conf($key) {
+
+		return $this->conf[$key];
+	}
+
+	
+
+	/**
 	 * Merge item's attributes with a static string of attributes
 	 *
 	 * @param string $attributes
@@ -597,6 +619,41 @@ class Builder {
 
 		// Merging new and old array and parse it as a string
 		return \HTML::attributes(array_merge(array_except($old, array('class')), $attrs));
+	}
+
+	/**
+	 * Filter items recursively
+	 *
+	 * @param string $attribute
+	 * @param mixed  $value
+	 *
+	 * @return Lavary\Menu\Collection
+	 */
+	public function filterRecursive($attribute, $value){
+
+		$collection = new Collection;
+		
+		// Iterate over all the items in the main collection
+		$this->items->each( function ($item) use ($attribute, $value, &$collection) {
+			
+			if ( !property_exists($item, $attribute) )
+			{
+				return false;
+			}
+			if( $item->$attribute == $value ) {
+				
+				$collection->push($item);
+				
+				// Check if item has any children
+				if( $item->hasChildren() ) {
+					
+					$collection = $collection->merge( $this->filterRecursive($attribute, $item->id) );
+				}
+			}
+
+		});
+
+		return $collection;
 	}
 
 	/**
@@ -618,7 +675,12 @@ class Builder {
 		}
 
 		$value     = $args ? $args[0] : null;
+		$recursive = isset($args[1]) ? $args[1] : false;
 		
+		if( $recursive ) {
+			return $this->filterRecursive($attribute, $value);
+		} 
+
 		return $this->items->filter(function($item) use ($attribute, $value) {
 
 			if ( !property_exists($item, $attribute) )

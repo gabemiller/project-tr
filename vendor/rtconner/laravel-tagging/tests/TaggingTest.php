@@ -1,6 +1,5 @@
 <?php
 
-use Conner\Tagging\Taggable;
 use Conner\Tagging\Tag;
 use Conner\Tagging\TaggingUtil;
 use Illuminate\Support\Facades\Config;
@@ -55,6 +54,8 @@ class TaggingTest extends \Orchestra\Testbench\TestCase {
 		}
 	
 		$this->assertEquals(count($tagStrings)-2, $stub->tagged->count());
+		
+		$this->assertInstanceOf('\Illuminate\Support\Collection', $stub->tagged);
 	}
 	
 	public function testUntag() {

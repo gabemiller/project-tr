@@ -17,16 +17,27 @@ To install latest version simply add it to your `composer.json`:
 "itsgoingd/clockwork": "1.*"
 ```
 
-### Laravel 4
+### Laravel
 
 Once Clockwork is installed, you need to register Laravel service provider, in your `app/config/app.php`:
 
 ```php
 'providers' => array(
 	...
-    'Clockwork\Support\Laravel\ClockworkServiceProvider'
+	'Clockwork\Support\Laravel\ClockworkServiceProvider'
 )
 ```
+
+When using Laravel 5, you need to add Clockwork middleware, in your `app/Http/Kernel.php`:
+
+```php
+protected $middleware = [
+	'Clockwork\Support\Laravel\ClockworkMiddleware',
+	...
+]
+```
+
+**NOTE: Laravel 5 support is experimental and only available in dev-master version.**
 
 By default, Clockwork will only be available in debug mode, you can change this and other settings in the configuration file. Use the following Artisan command to publish the configuration file into your config directory:
 
@@ -107,16 +118,16 @@ Finally, you need to set up the Clockwork hooks by adding following to your `app
 Clockwork\Support\CodeIgniter\Register::registerHooks($hook);
 ```
 
-To use Clockwork within your controllers/models/etc. you will need to extend your `CI_Controller` class. (If you haven't done so already) Create a new file at `application/core/MY_Controller.php`. 
+To use Clockwork within your controllers/models/etc. you will need to extend your `CI_Controller` class. (If you haven't done so already) Create a new file at `application/core/MY_Controller.php`.
 
 ```php
 class MY_Controller extends CI_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $GLOBALS['EXT']->_call_hook('pre_controller_constructor');
-     } 
+	public function __construct()
+	{
+		parent::__construct();
+		$GLOBALS['EXT']->_call_hook('pre_controller_constructor');
+	 }
 }
 ```
 
@@ -140,6 +151,7 @@ If you would like to see or are working on a support for yet unsupported framewo
 
 - [clockwork-cli](https://github.com/ptrofimov/clockwork-cli) - Command-line interface to Clockwork by [ptrofimov](https://github.com/ptrofimov)
 - [guzzle-clockwork](https://github.com/hannesvdvreken/guzzle-clockwork) - Plugin for logging Guzzle requests to Clockwork by [hannesvdvreken](https://github.com/hannesvdvreken)
+- [silverstripe-clockwork](https://github.com/markguinn/silverstripe-clockwork) - Integration for SilverStripe CMS/framework by [markguinn](https://github.com/markguinn)
 
 ## Licence
 

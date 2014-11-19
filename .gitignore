@@ -1,1 +1,4 @@
 public/img
+vendor
+.idea
+server.php

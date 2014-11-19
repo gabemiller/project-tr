@@ -68,15 +68,7 @@
                 </div>
             </form-->
             <!-- /.search form -->
-            <ul class="sidebar-menu">
-                {{HTML::activeMenu(HTML::linkRoute('admin.vezerlopult','<i class="fa fa-dashboard"></i> Vezérlőpult'),'admin')}}
-                {{HTML::activeMenu(HTML::linkRoute('admin.hir.index','<i class="fa fa-file-text-o"></i> Hírek'),'admin/hir')}}
-                {{HTML::activeMenu(HTML::linkRoute('admin.esemeny.index','<i class="fa fa-calendar"></i> Események'),'admin/esemeny')}}
-                {{HTML::activeMenu(HTML::linkRoute('admin.galeria.index','<i class="fa fa-photo"></i> Galéria'),'admin/galeria')}}
-                {{HTML::activeMenu(HTML::linkRoute('admin.dokumentum.index','<i class="fa fa-book"></i> Dokumentumok'),'admin/oldal')}}
-                {{HTML::activeMenu(HTML::linkRoute('admin.oldal.index','<i class="fa fa-sitemap"></i> Oldalak'),'admin/oldal')}}
-                {{HTML::activeMenu(HTML::linkRoute('admin.felhasznalok.felhasznalo.index','<i class="fa fa-users"></i> Felhasználók'),'admin/felhasznalok/felhasznalo')}}
-            </ul>
+            {{$adminMenu->asUl(['class'=>'sidebar-menu'])}}
         </section>
         <!-- /.sidebar -->
     </aside>

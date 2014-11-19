@@ -24,21 +24,10 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(function(){
-    
-    $environment = array(
-        'divide-cms.dev' => 'developement',
-        'divide.dev' => 'developement',
-        'divide-test.dev' => 'testing'
-    );
-    
-    if(isset($_SERVER['SERVER_NAME']) && isset($environment[$_SERVER['SERVER_NAME']])){
-        return $environment[$_SERVER['SERVER_NAME']];
-    } else{
-        return 'production';
-    }
-    
-});
+$env = $app->detectEnvironment(array(
+    'production' => array('divide-server'),
+    'developement' => array('Paralelo','.dev','localhost','.local'),
+));
 
 /*
 |--------------------------------------------------------------------------

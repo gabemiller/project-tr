@@ -20,6 +20,8 @@ $(function() {
 
     $('.sidebar-menu').metisMenu();
 
+    $('.treeview').children('ul').addClass('treeview-menu');
+
     /**
      * -------------------------------------------------------------------------
      * Summernote

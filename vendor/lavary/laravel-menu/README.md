@@ -7,6 +7,53 @@
 
 A quick way to create menus in [Laravel 4.x](http://laravel.com/)
 
+##Documentation
+
+* [Installation](#installation)
+* [Getting Started](#getting-started)
+* [Routing](#routing)
+	- [URLs](#urls)	
+	- [Named Routes](#named-routs)
+	- [Controller Actions](#controller-actions)
+	- [HTTPS](#https)
+* [Sub-items](#sub-items)
+* [Referring to Items](#referring-to-items)
+	- [Get Item by Title](#get-item-by-title)
+	- [Get Item by Id](#get-item-by-id)
+	- [Get All Items](#get-all-items)
+	- [Get the First Item](#get-the-first-item)
+	- [Get the Last Item](#get-the-last-item)
+	- [Get Sub-items of the Item](#get-sub-items-of-the-item)
+	- [Magic Where Methods](#magic-where-methods)
+* [Referring to Menu Objects](#referring-to-menu-instances)
+* [HTML Attributes](#html-attributes)
+* [Maniuplating Links](#maniuplating-links)
+	- [Link's Href Property](#links-href-property)
+* [Active Item](#active-item)
+	- [RESTful URLs](#restful-urls)
+	- [URL Wildcards](#url-wildcards)
+* [Inserting a Separator](#inserting-a-separator)
+* [Append and Prepend](#append-and-prepend)
+* [Raw Items](#raw-items)
+* [Menu Groups](#menu-groups)
+* [URL Prefixing](#url-prefixing)
+* [Nested Groups](#nested-groups)
+* [Meta Data](#meta-data)
+* [Filtering the Items](#filtering-the-items)
+* [Sorting the Items](#sorting-the-items)
+* [Rendering Methods](#rendering-methods)
+	- [Menu as Unordered List](#menu-as-unordered-list)
+	- [Menu as Ordered List](#menu-as-ordered-list)
+	- [Menu as Div](#menu-as-div)
+	- [Menu as Bootstrap 3 Navbar](#menu-as-bootstrap-3-navbar)
+* [Advanced Usage](#advanced-usage)
+	+ [A Basic Example](#a-basic-example)
+	+ [Control Structure for Blade](#control-structure-for-blade)
+		- [@lm-attrs](#lm-attrs)
+* [Configuration](#configuration)
+* [If You Need Help](#if-you-need-help)
+* [License](#license)
+
 
 ## Installation
 
@@ -61,7 +108,7 @@ At the end of `config/app.php` add `'Menu'    => 'Lavary\Menu\Facade'` to the `$
 This registers the package with Laravel and creates an alias called `Menu`.
 
 
-## Basic Usage
+## Getting Started
 
 
 Menus can be defined in `app/routes.php` or `start/global.php` or any other place you wish as long as it is auto loaded when a request hits your application.
@@ -85,27 +132,27 @@ Menu::make('MyNavBar', function($menu){
 
 **Attention** `$MyNavBar` is just a hypothetical name I used in these examples; You can name your menus whatever you please.
 
-In the above example `Menu::make()` creates a menu named `MyNavBar`, Adds the menu instance to the `Menu::collection` and finally makes `$myNavBar` object available in the views.
+In the above example `Menu::make()` creates a menu named `MyNavBar`, Adds the menu instance to the `Menu::collection` and ultimately makes `$myNavBar` object available across all views.
 
-This method accepts a callable inside which you can define your items by `add` method. `add` adds a new item to the menu and returns an instance of `Item`. `add()` receives two parameters, the first one is the item title and the second one is options.
+This method accepts a callable inside which you can define your items. `add` method defines a new item. It receives two parameters, the first one is the item title and the second one is options.
 
-*options* can be a simple string representing a URL or an associative array of options and HTML attributes which we'll discuss in a bit.
+*options* can be a simple string representing a URL or an associative array of options and HTML attributes which we'll discuss shortly.
 
 
 
 **To render the menu in your view:**
 
-`Laravel-menu` provides three rendering methods out of the box. However you can create your own renderer using the right methods and attributes.
+`Laravel-menu` provides three rendering methods out of the box. However you can create your own rendering method using the right methods and attributes.
 
-As noted earlier, `laravel-menu` provides three rendering formats out of the box, asUl(), asOl() and asDiv(). We'll talk about these methods in detail later.
+As noted earlier, `laravel-menu` provides three rendering formats out of the box, `asUl()`, `asOl()` and `asDiv()`. You can read about the details [here](#rendering-methods).
 
-```
+```php
 {{ $MyNavBar->asUl() }}
 ```
 
-You can also access the menu via the menu collection:
+You can also access the menu object via the menu collection:
 
-```
+```php
 {{ Menu::get('MyNavBar')->asUl() }}
 ```
 
@@ -121,24 +168,38 @@ This will render your menu like so:
 ```
 And that's all about it!
 
-## Named Routs
 
-`laravel-menu` supports named routes as item URL:
+## Routing
 
-This time instead of passing a simple string to `add()`, we pass an associative array like so:
+#### URLs
+
+You can simply assign a URL to your menu item by passing the URL as the second argument to `add` method:
+
+```php
+<?php
+// ...
+$menu->add('About Us', 'about-us');
+// ...
+```
+
+#### Named Routs
+
+`laravel-menu` supports named routes as well:
+
+This time instead of passing a simple string to `add()`, we pass an associative with key `route` and a named route as value:
 
 ```php
 <?php
 
-// ...
+// Suppose we have these routes defined in our app/routes.php file 
 
-/* Suppose we have these routes defined in our app/routes.php file */
+//...
 Route::get('/',        array('as' => 'home.page',  function(){...}));
 Route::get('about',    array('as' => 'page.about', function(){...}));
-
 //...
 
 // Now we make the menu:
+
 Menu::make('MyNavBar', function($menu){
   
   $menu->add('Home',     array('route'  => 'home.page'));
@@ -149,18 +210,18 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-## Controller Actions
+
+#### Controller Actions
 
 Laravel Menu supports controller actions as well.
 
 You will just need to set `action` key of your options array to a controller action:
 
-// ...
-
 ```php
 <?php
 
-/* Suppose we have these routes defined in our app/routes.php file */
+// Suppose we have these routes defined in our app/routes.php file
+
 // ...
 Route::get('services', 'ServiceController@index');
 //...
@@ -190,7 +251,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-## HTTPS
+#### HTTPS
 
 If you need to serve the route over HTTPS, call `secure()` on the item's `link` attribute or alternatively add key `secure` to the options array and set it to `true`:
 
@@ -284,7 +345,7 @@ It is possible to add sub items directly using `parent` attribute:
 
 You can access defined items throughout your code using the methods described below.
 
-**Get Item by Title**
+#### Get Item by Title
 
  along with item's title in *camel case*:
 
@@ -328,7 +389,7 @@ As an example, let's insert a divider after `About us` item after we've defined 
 ?>
 ```
 
-**Get Item By Id**
+#### Get Item By Id
 
 You can also get an item by Id if needed:
 
@@ -340,7 +401,7 @@ You can also get an item by Id if needed:
 ?>
 ```
 
-**Get All Items**
+#### Get All Items
 
 ```php
 <?php
@@ -354,7 +415,7 @@ You can also get an item by Id if needed:
 ```
 `all()` returns a *Laravel Collection*.
 
-**Get the First Item**
+#### Get the First Item
 
 ```php
 <?php
@@ -367,7 +428,7 @@ You can also get an item by Id if needed:
 ?>
 ```
 
-**Get the Last Item**
+#### Get the Last Item
 
 ```php
 <?php
@@ -380,7 +441,7 @@ You can also get an item by Id if needed:
 ?>
 ```
 
-**Get Sub-Items of the Item**
+#### Get Sub-Items of the Item
 
 First of all you need to get the item using the methods described above then call `children()` on it.
 
@@ -419,9 +480,18 @@ To check if an item has any children or not, you can use `hasChildren()`
 ?>
 ```
 
+To get all descendants of an item you may use `all`:
+
+```php
+<?php
+// ...
+$aboutSubs = $menu->about->all();
+// ...
+
+```
 
 
-**Magic Where Methods**
+#### Magic Where Methods
 
 You can also search the items collection by magic where methods.
 These methods are consisted of a `where` concatenated with a property (object property or even meta data)
@@ -454,6 +524,15 @@ Or to get item's with a specific meta data:
 ```
 
 This method returns a *Laravel collection*.
+
+If you need to fetch descendants of the matched items as well, Just set the second argument as true.
+
+```php
+<?php
+$reds = $menu->whereColor('red', true);
+```
+
+This will give all items with color red and their decsendants.
 
 
 ## Referring to Menu Instances
@@ -558,6 +637,22 @@ You can also pass an associative array of attributes if you need to add a group 
 ?>
 ```
 
+You can use `attr` on a collection, if you need to target a group of items:
+
+```php
+<?php
+  // ...
+  $menu->add('About', 'about');
+  
+  $menu->about->add('Who we are', 'about/whoweare');
+  $menu->about->add('What we do', 'about/whatwedo');
+  
+  // add a class to children of About
+  $menu->about->children()->attr('class', 'about-item');
+  
+  // ...
+```
+
 ## Maniuplating Links
 
 All the HTML attributes will go to the wrapping tags(li, div, etc); You might encounter situations when you need to add some HTML attributes to `<a>` tags as well.
@@ -582,7 +677,7 @@ Menu::make('MyNavBar', function($menu){
 ?>
 ```
 
-### Link's Href Property
+#### Link's Href Property
 
 If you don't want to use the routing feature of `laravel-menu` or you don't want the builder to prefix your URL with anything (your host address for example), you can explicitly set your link's href property:
 
@@ -641,6 +736,25 @@ You can also choose the element to be activated (item or the link) in `options.p
 	// ...
 
 ```
+
+#### RESTful URLs
+
+RESTful URLs are also supported as long as `restful` option is set as `true` in `config/settings.php` file, E.g. item with url `resource` will be activated by `resource/slug` or `resource/slug/edit`.  
+
+You might encounter situations where your app is in a directory instead of the root directory or your resources have a common prefix; In such case you need to set `rest_base` option to a proper prefix for a better restful activation support. `rest_base` can take a simple string, array of string or a function call as value.
+
+#### URL Wildcards
+
+You're also able to define a pattern for a certain item, if the automatic activation can't help:
+
+```php
+<?php
+// ...
+$menu->add('Articles', 'articles')->active('this-is-another-url/*')
+// ...
+```
+
+So `this-is-another-url`, `this-is-another-url/and-another` will both activate `Articles` item.
 
 ## Inserting a Separator
 
@@ -740,6 +854,8 @@ The above code will result:
 
 ```
 
+You can call `prepend` and `append` on collections as well.
+
 ## Raw Items
 
 To insert items as plain text instead of hyper-links you can use `raw()`:
@@ -808,7 +924,7 @@ Attributes `style` and `data-role` would be applied to both `About` and `Service
 
 ## URL Prefixing
 
-Just like Laravel route prefixing feature, a group of menu items may be prefixed by using the `prefix` option in the passing array to group.
+Just like Laravel route prefixing feature, a group of menu items may be prefixed by using the `prefix` option in the  array being passed to the group.
 
 **Attention:** Prefixing only works on the menu items addressed with `url` but not `route` or `action`. 
 
@@ -935,6 +1051,21 @@ You can also access a data as if it's a property:
 
 Meta data don't do anything to the item and won't be rendered in HTML either. It is the developer who would decide what to do with them.
 
+You can use `data` on a collection, if you need to target a group of items:
+
+```php
+<?php
+  // ...
+  $menu->add('Users', 'users');
+  
+  $menu->users->add('New User', 'users/new');
+  $menu->users->add('Uses', 'users');
+  
+  // add a meta data to children of Users
+  $menu->users->children()->data('anything', 'value');
+  
+  // ...
+```
 
 ## Filtering the Items
 
@@ -958,7 +1089,7 @@ Menu::make('MyNavBar', function($menu){
        ->data('permission', 'manage_users');
 
 })->filter(function($item){
-  if(User::get()->hasRole( $item->data('permission'))) {
+  if(User::get()->can( $item->data('permission'))) {
       return true;
   }
   return false;
@@ -1035,11 +1166,11 @@ Menu::make('main', function($m){
 The closure takes the items collection as argument.
 
 
-## Rendering Formats
+## Rendering Methods
 
 Several rendering formats are available out of the box:
 
-* **Menu as Unordered List**
+#### Menu as Unordered List
 
 ```html
   {{ $MenuName->asUl() }}
@@ -1062,7 +1193,7 @@ Result:
 </ul>
 ```
 
-* **Menu as Ordered List**
+#### Menu as Ordered List
 
 
 ```php
@@ -1086,7 +1217,7 @@ Result:
 </ol>
 ```
 
-* **Menu as Div**
+#### Menu as Div
 
 
 ```php
@@ -1110,9 +1241,9 @@ Result:
 </div>
 ```
 
-* **Menu as Bootstrap 3 Navbar**
+#### Menu as Bootstrap 3 Navbar
 
-Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly format which you can **include** in your Bootstrap based navigation bars:
+Laravel Menu provides a parital view out of the box which generates menu items in a bootstrap friendly style which you can **include** in your Bootstrap based navigation bars:
 
 You can access the partial view via `Config::get('laravel-menu::views.bootstrap-items')`.
 
@@ -1166,12 +1297,11 @@ This is how your Bootstrap code is going to look like:
 </nav>
 ```
 
-I've prepared a tutorial about embedding several menu objects in a bootstrap navbar in case somebody is interested.
-You can read all about it [here](https://gist.github.com/lavary/c9da317446e2e3b32779).
-
 ## Advanced Usage
 
 As noted earlier you can create your own rendering formats.
+
+#### A Basic Example
 
 If you'd like to render your menu(s) according to your own design, you should create two views.
 
@@ -1206,7 +1336,7 @@ Menu::make('MyNavBar', function($menu){
 In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-items.blade.php`.
 
 **custom-menu.blade.php**
-```
+```php
 <nav class="navbar">
   <ul class="horizontal-navbar">
     @include('custom-menu-items', array('items', $MyNavBar->roots()))
@@ -1215,10 +1345,10 @@ In this example we name View-1 `custom-menu.blade.php` and View-2 `custom-menu-i
 ```
 
 **custom-menu-items.blade.php**
-```
+```php
 @foreach($items as $item)
   <li @if($item->hasChildren()) class="dropdown" @endif>
-      <a href="{{ $item->url }}">{{ $item->title }} </a>
+      <a href="{{ $item->url() }}">{{ $item->title }} </a>
       @if($item->hasChildren())
         <ul class="dropdown-menu">
               @include('custom-menu-items', array('items' => $item->children()))
@@ -1240,15 +1370,15 @@ In `custom-menu-items.blade.php` we ran a `foreach` loop and called the file rec
 
 To put the rendered menu in your application template, you can simply include `custom-menu` view in your master layout.
 
-## Control Structures For Blade
+#### Control Structure For Blade
 
 Laravel menu extends Blade to handle special layouts.
 
-### @lm-attrs
+##### @lm-attrs
 
 You might encounter situations when some of your HTML properties are explicitly written inside your view instead of dynamically being defined when adding the item; However you will need to merge these static attributes with your Item's attributes.
 
-```
+```php
 @foreach($items as $item)
   <li @if($item->hasChildren()) class="dropdown" @endif data-test="test">
       <a href="{{ $item->url }}">{{ $item->title }} </a>
@@ -1274,7 +1404,7 @@ $menu->add('Dropdown', array('class' => 'item item-1', 'id' => 'my-item'));
 
 The view:
 
-```
+```php
 @foreach($items as $item)
   <li@lm-attrs($item) @if($item->hasChildren()) class="dropdown" @endif data-test="test" @lm-endattrs>
       <a href="{{ $item->url }}">{{ $item->title }} </a>
@@ -1295,6 +1425,35 @@ Here's the result:
 ...
 <li class="item item-1 dropdown" id="my-item" data-test="test">...</li>
 ...
+```
+
+
+## Configuration
+
+You can adjust the behavior of the menu builder in `config/settings.php` file. Currently it provide a few options out of the box:
+
+* **auto_activate** Automatically activates menu items based on the current URI
+* **activate_parents** Activates the parents of an active item
+* **restful** Activates RESTful URLS. E.g `resource/slug` will activate item with `resource` url.
+* **cascade_data** If you need descendants of an item to inherit meta data from their parents, make sure this option is enabled.
+* **rest_base** The base URL that all restful resources might be prefixed with.
+* **active_element** You can choose the HTML element to which you want to add activation classes (anchor or the wrapping element).
+
+You're also able to override the default settings for each menu. To override settings for menu, just add the lower-cased menu name as a key in the settings array and add the options you need to override:
+
+```php
+<?php
+return array(
+	'default' => array(
+		'auto_activate'    => true,
+		'activate_parents' => true,
+		'restful'          => true,
+		'active_element'   => 'item',    // item|link
+	),
+	'yourmenuname' => array(
+		'auto_activate'    => false
+	),
+);
 ```
 
 

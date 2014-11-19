@@ -25,4 +25,19 @@ class PageController extends \BaseController {
         $this->layout->content = View::make('site.page.show')->with('page', $page)->with('url', Request::url());
     }
 
+    /**
+     * Display the specified resource.
+     * GET /site\page/{id}
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function showCompetitions(){
+        $pages = Page::where('is_competition','=',true)->paginate(5);
+
+        View::share('title', 'Pályázatok');
+
+        $this->layout->content = View::make('site.page.competition')->with('pages', $pages)->with('url', Request::url());
+    }
+
 }

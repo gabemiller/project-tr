@@ -41,6 +41,9 @@
                                         </button>
 
                                         <div class="collapse" id="navCollapse">
+                                            <h4>Pályázatok</h4>
+                                            {{$competitionMenu->asUl(array('class'=>'list-unstyled nav-menu-competition'))}}
+                                            <h4>Navigáció</h4>
                                             {{$mainMenu->asUl(array('class'=>'list-unstyled nav-menu'))}}
                                         </div>
                                     </nav>
