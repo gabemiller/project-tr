@@ -1,4 +1,4 @@
 public/img
-vendor
-.idea
+vendor/*
+.idea/*
 server.php
