@@ -2,7 +2,13 @@
 
 namespace Divide\CMS;
 
-class Document extends \Eloquent {
+/**
+ * Divide\CMS\Document
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Divide\CMS\DocumentCategory[] $categories 
+ */
+class Document extends \Eloquent
+{
 
     /**
      * @var array
@@ -37,4 +43,5 @@ class Document extends \Eloquent {
         return $ids;
 
     }
+
 }

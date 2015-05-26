@@ -4,37 +4,43 @@ namespace Divide\CMS;
 
 use Str;
 
-class Page extends \Eloquent {
+/**
+ * Divide\CMS\Page
+ *
+ * @property-read \Divide\CMS\Gallery $gallery 
+ */
+class Page extends \Eloquent
+{
 
 //protected $fillable = [];
     protected $table = 'pages';
 
     /**
-     * 
-     * @return type
+     * @return mixed
      */
-    public function gallery() {
+    public function gallery()
+    {
         return $this->belongsTo('Divide\CMS\Gallery');
     }
 
     /**
-     * 
-     * @return type
+     * @return int
      */
-    public function getGalleryId() {
+    public function getGalleryId()
+    {
         return $this->gallery_id == 0 ? 0 : $this->gallery->id;
     }
 
     /**
-     * 
-     * @param type $id
-     * @return type
+     * @param int $id
+     * @return array
      */
-    public static function getPages($id = 0) {
+    public static function getPages($id = 0)
+    {
 
         $array = array(0 => 'Nincs');
 
-        foreach (Page::where('id', '<>', $id)->get(['id', 'menu']) as $page) {
+        foreach (Page::where('id', '<>', $id)->where('is_competition', '=', false)->get(['id', 'menu']) as $page) {
             $array[$page->id] = $page->menu;
         }
 
@@ -42,12 +48,14 @@ class Page extends \Eloquent {
     }
 
     /**
-     * 
-     * @param type $menu
-     * @param type $id
+     * @param $menu
+     * @param $id
      */
-    public static function getPagesForMenu($menu, $id) {
-        $pages = Page::where('parent', '=', $id)->get(['id', 'menu', 'parent', 'title']);
+    public static function getPagesForMenu($menu, $id)
+    {
+        $pages = Page::where('parent', '=', $id)
+            ->where('is_competition', '=', false)
+            ->get(['id', 'menu', 'parent', 'title']);
 
         if ($id == 0) {
             foreach ($pages as $page) {
@@ -64,14 +72,29 @@ class Page extends \Eloquent {
     }
 
     /**
-     * 
+     * @return bool
      */
-    public function hasChildren() {
+    public function hasChildren()
+    {
         if (Page::where('parent', '=', $this->id)->count() > 0) {
             return true;
         } else {
             return false;
         }
+    }
+
+    /**
+     * @return array
+     */
+    public static function getArray()
+    {
+        $arr = array();
+
+        foreach (static::all(['id', 'title']) as $item) {
+            $arr[$item->id] = $item->title;
+        }
+
+        return $arr;
     }
 
 }

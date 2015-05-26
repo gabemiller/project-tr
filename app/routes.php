@@ -59,33 +59,19 @@ if (!Request::is('admin') && !Request::is('admin/*')) {
 
     Menu::make('mainMenu', function ($menu) {
 
-        $menu->add('Főoldal', array('route' => 'fooldal'));
-
-        $menu->add('Események', array('route' => 'esemenyek.index'));
-
-        $menu->add('Galériák', array('route' => 'galeriak.index'));
-
-        $menu->add('Dokumentumok', array('route' => 'dokumentumok.index'));
-
         try {
-
-            foreach (\Divide\CMS\DocumentCategory::all(['name','slug']) as $docCat) {
-                $menu->get('dokumentumok')->add($docCat->name,
-                    ['route'=>['dokumentumok.index',
-                        'category'=>$docCat->slug]]);
-            }
-
-            \Divide\CMS\Page::getPagesForMenu($menu, 0);
+            \Divide\CMS\MenuItem::generateMenu($menu, null);
 
             foreach ($menu->all() as $item) {
                 if ($item->hasChildren()) {
                     $item->append('<i class="fa fa-bars"></i>');
                 }
             }
-        } catch (\Exception $e) {
+
+        } catch (\Exception $ex) {
 
         }
-    });
+    })->sortBy('order','asc');
 }
 
 
@@ -124,6 +110,8 @@ Route::group(array('prefix' => 'admin', 'namespace' => 'Admin', 'before' => 'use
     Route::resource('dokumentum', 'DocumentController');
 
     Route::resource('dokumentum-kategoria', 'DocumentCategoryController');
+
+    Route::resource('menu-kezelo', 'MenuController');
 
     Route::resource('galeria', 'GalleryController');
 
@@ -244,6 +232,11 @@ if (Request::is('admin') || Request::is('admin/*')) {
             ['route' => 'admin.palyazat.index'])
             ->prepend('<i class="fa fa-angle-double-right "></i> ');
 
+        /**
+         * Menükezelő menüpont
+         */
+        $menu->add('<i class="fa fa-bars"></i> Menü kezelő',
+            ['route' => 'admin.menu-kezelo.create']);
 
         /**
          * Felhasználók menüpont
