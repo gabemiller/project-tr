@@ -50,6 +50,15 @@
                                 <p class="help-block">Ez a neve a menüpontnak.</p>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            {{Form::label('order', 'Sorrend',array('class'=>'control-label col-lg-2'))}}
+                            <div class="col-lg-9">
+                                {{Form::input('text','order',$menuItem->order,array('class'=>'form-control','placeholder'=>'Sorrend'))}}
+                                <p class="help-block">A menüpont helye a menüben. Sorszámmal kell megadni. Például: 1</p>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             {{Form::label('url', 'URL',array('class'=>'col-lg-2 control-label'))}}
                             <div class="col-lg-9">
