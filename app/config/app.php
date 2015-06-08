@@ -111,7 +111,7 @@ return array(
         'DaveJamesMiller\Breadcrumbs\ServiceProvider',
         'Intervention\Image\ImageServiceProvider',
         'Lavary\Menu\ServiceProvider',
-        'Clockwork\Support\Laravel\ClockworkServiceProvider',
+        'Barryvdh\Elfinder\ElfinderServiceProvider',
     ),
     /*
       |--------------------------------------------------------------------------
