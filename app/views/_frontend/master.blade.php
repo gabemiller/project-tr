@@ -42,6 +42,9 @@
 
                                         <div class="collapse" id="navCollapse">
                                             <h4>Pályázatok</h4>
+                                            <a href="/img/gallery/10/1434101044.9019-megujul-tardona-kozvilagitasi.jpg">
+                                                <img class="img-responsive" src="/img/gallery/10/1434101044.9019-megujul-tardona-kozvilagitasi.jpg" alt="Infóblokk">
+                                            </a>
                                             {{$competitionMenu->asUl(array('class'=>'list-unstyled nav-menu-competition'))}}
                                             <h4>Navigáció</h4>
                                             {{$mainMenu->asUl(array('class'=>'list-unstyled nav-menu'))}}
