@@ -17,8 +17,7 @@
                 @foreach($pages as $page)
                     <tr>
                         <td>
-                            <h3>{{HTML::linkRoute('oldalak.show',$page->menu,array('id'=>$page->id,'slug'=>\Str::slug($page->title)))}}</h3>
-                            <h4>{{$page->title}}</h4>
+                            <h3>{{HTML::linkRoute('oldalak.show',$page->menu,array('id'=>$page->id,'slug'=>$page->title))}}</h3>
                         </td>
                         <td>
                             {{$page->created_at}}
