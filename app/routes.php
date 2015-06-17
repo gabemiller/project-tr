@@ -22,6 +22,8 @@ Route::group(array('namespace' => 'Site'), function () {
 
     Route::get('/', ['uses' => 'HomeController@index', 'as' => 'fooldal']);
 
+    Route::get('hirek', ['uses' => 'Site\ArticleController@index', 'as' => 'hirek.index']);
+
     Route::get('hirek/{id}/{title}', ['uses' => 'ArticleController@show', 'as' => 'hirek.show']);
 
     Route::get('hirek/cimke/{id}/{tagSlug}', ['uses' => 'ArticleController@tag', 'as' => 'hirek.tag']);
