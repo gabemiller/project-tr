@@ -11,6 +11,25 @@ class ArticleController extends \BaseController {
 
     protected $layout = '_frontend.master';
 
+
+    /**
+     * Display a listing of the resource.
+     * GET /site\index
+     *
+     * @return Response
+     */
+    public function index() {
+        View::share('title', 'Főoldal');
+
+        $article = Article::where('shows', '=', true)
+            ->orderBy('created_at', 'DESC')
+            ->select(['id', 'title', 'author_id', 'created_at', 'content'])
+            ->paginate(5);
+
+        $this->layout->content = View::make('site.article.index')
+            ->with('articles', $article);
+    }
+
     /**
      * Display the specified resource.
      * GET /site\article/{id}
@@ -24,7 +43,9 @@ class ArticleController extends \BaseController {
         
         View::share('title', $article->title);
         
-        $this->layout->content = View::make('site.article.show')->with('article', $article)->with('url',Request::url());
+        $this->layout->content = View::make('site.article.show')
+            ->with('article', $article)
+            ->with('url',Request::url());
     }
     
     /**
@@ -39,7 +60,9 @@ class ArticleController extends \BaseController {
         
         $article = Article::withAnyTag($tag->name)->orderBy('created_at','desc')->paginate(10);
 
-        $this->layout->content = View::make('site.article.tag')->with('articles',$article)->with('tag',$tag);
+        $this->layout->content = View::make('site.article.tag')
+            ->with('articles',$article)
+            ->with('tag',$tag);
     }
 
 }
