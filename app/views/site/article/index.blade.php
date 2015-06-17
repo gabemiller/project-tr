@@ -1,6 +1,6 @@
 @extends('_frontend.master')
 @section('breadcrumb')
-    {{ HTML::decode(Breadcrumbs::render('hirek.tag',$tag)) }}
+    {{-- HTML::decode(Breadcrumbs::render('fooldal')) --}}
 @stop
 @section('content')
 
@@ -14,7 +14,7 @@
             </p>
             --}}
 
-            <p class="text-justify">{{$article->getParragraph()}}</p>
+            <div class="article-content">{{$article->content}}</div>
 
             <div class="tags">
                 @if(sizeof($article->tagNames()) > 0)

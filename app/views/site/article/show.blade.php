@@ -7,7 +7,11 @@
     <div class="article">
         <h1>{{HTML::link($article->getLink(),$article->title)}}</h1>
 
-        <p class="small">Írta: {{$article->getAuthorName()}} | Létrehozva: {{$article->getCreateDate()}} </p>
+        {{--
+        <p class="small text-uppercase text-muted">
+            <strong>{{$article->getAuthorName()}}</strong>, {{$article->getCreateDate()}}
+        </p>
+        --}}
 
         <div class="article-content">
             {{$article->content}}
@@ -32,7 +36,7 @@
         <div id="disqus_thread"></div>
         <script type="text/javascript">
             /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-            var disqus_shortname = 'tardona'; // required: replace example with your forum shortname
+            var disqus_shortname = 'banhorvati'; // required: replace example with your forum shortname
 
             /* * * DON'T EDIT BELOW THIS LINE * * */
             (function () {

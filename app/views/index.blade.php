@@ -1,29 +1,30 @@
 @extends('_frontend.master')
 @section('breadcrumb')
-{{ HTML::decode(Breadcrumbs::render('fooldal')) }}
+    {{ HTML::decode(Breadcrumbs::render('fooldal')) }}
 @stop
 @section('content')
 
-@foreach($articles as $article)
-<div class="article list-box">
-    <h3>{{HTML::link($article->getLink(),$article->title)}}</h3>
-    <p class="small">
-        <strong>{{$article->getAuthorName()}}</strong> <br> 
-        {{$article->getCreateDate()}} 
-    </p>
-    <p class="text-justify">{{$article->getParragraph()}}</p>
-    <div class="tags">
-        @if(sizeof($article->tagNames()) > 0)
-        @foreach(\Divide\Helper\Tag::getTagByName($article->tagNames()) as $tag)
-        <span class="label label-banhorvati-blue">{{HTML::linkRoute('hirek.tag',$tag->name,array('id'=>$tag->id,'tagSlug'=>\Str::slug($tag->slug)))}}</span>
-        @endforeach
-        @endif
-    </div>
-</div> 
-@endforeach
+    <div class="page">
+        <h1>{{$page->title}}</h1>
+        <div class="page-content">
+            {{$page->content}}
+        </div>
 
-<div class="text-center">
-    {{$articles->links();}}
-</div>
+        @if(count($page->gallery)!=0 && count($page->gallery->pictures)!=0)
+            <h4>Galéria</h4>
+            <div class="page-gallery">
+                <ul class="row list-unstyled">
+                    @foreach($page->gallery->pictures as $picture)
+                        <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+                            <a href="{{$picture->picture_path}}" title="{{$picture->name}}" data-gallery>
+                                <img class="img-responsive" src="{{$picture->thumbnail_path}}" alt="{{$picture->name}}" title="{{$picture->name}}" />
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+    </div>
 
 @stop
