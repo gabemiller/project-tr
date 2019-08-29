@@ -42,8 +42,8 @@
 
                                         <div class="collapse" id="navCollapse">
                                             <h4>Pályázatok</h4>
-                                            <a href="/oldal/86/nagybarca-es-tersegenek-kozossegfejlesztesi-projektje">
-                                                <img class="img-responsive" src="/img/gallery/11/1533153427.5551-nagybarca-es-tersegenek.jpg" alt="Infóblokk">
+                                            <a href="/oldal/95/befektetes-a-jovobe-efop-153-16-2017-00030">
+                                                <img class="img-responsive" src="/img/gallery/13/1567069115.4665-befektetes-a-jovobe.jpg" alt="Infóblokk">
                                             </a>
                                             {{$competitionMenu->asUl(array('class'=>'list-unstyled nav-menu-competition'))}}
                                             <h4>Navigáció</h4>
