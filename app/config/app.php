@@ -177,6 +177,5 @@ return array(
         'Breadcrumbs' => 'DaveJamesMiller\Breadcrumbs\Facade',
         'Image' => 'Intervention\Image\Facades\Image',
         'Menu' => 'Lavary\Menu\Facade',
-        'Clockwork' => 'Clockwork\Support\Laravel\Facade',
     ),
 );
