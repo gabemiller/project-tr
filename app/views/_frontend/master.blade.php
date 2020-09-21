@@ -42,6 +42,9 @@
 
                                         <div class="collapse" id="navCollapse">
                                             <h4>Pályázatok</h4>
+                                            <a href="http://banhorvati.hu/img/gallery/41/1600201704.4254-magyar-falu-program.jpg" target="_blank" style="margin-bottom: 10px">
+                                                <img class="img-responsive" src="http://banhorvati.hu/img/gallery/41/1600201704.4254-magyar-falu-program.jpg" alt="Magyar Falu Program">
+                                            </a>
                                             <a href="/oldal/95/befektetes-a-jovobe-efop-153-16-2017-00030">
                                                 <img class="img-responsive" src="/img/gallery/13/1567069115.4665-befektetes-a-jovobe.jpg" alt="Infóblokk">
                                             </a>
