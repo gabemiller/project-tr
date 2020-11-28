@@ -1,4 +1,9 @@
 <?php
+
+View::composer('_frontend.master',function($view){
+    $view->with('am',\Cookie::get('am'));
+});
+
 /**
  * Patterns
  */
@@ -43,6 +48,17 @@ Route::group(array('namespace' => 'Site'), function () {
     Route::get('palyazatok', ['uses' => 'PageController@showCompetitions', 'as' => 'palyazatok.index']);
 
     Route::get('documentumok/{category?}', ['uses' => 'DocumentController@index', 'as' => 'dokumentumok.index']);
+
+    Route::get('akadalymentes/{am}', function ($am) {
+
+        if ($am == 'letrehoz') {
+            $cookie = \Cookie::forever('am', 'true');
+        } else {
+            $cookie = \Cookie::forget('am');
+        }
+
+        return \Redirect::back()->withCookie($cookie);
+    });
 
 });
 /**

@@ -519,3 +519,22 @@ fieldset[disabled] .btn-tardona-yellow.active {
 .table-middle>thead>tr>th, .table-middle>tbody>tr>th, .table-middle>tfoot>tr>th, .table-middle>thead>tr>td, .table-middle>tbody>tr>td, .table-middle>tfoot>tr>td{
     vertical-align: middle;
 }
+
+/* Web accessability */
+
+.btn-am, .btn-am:visited{
+    background: url('../../assets/am.jpg') left top/contain no-repeat yellow;
+    color: #000000;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 8px 8px 8px 40px;
+    float: right;
+    border: 2px solid #000000;
+    margin: 1px 0;
+}
+
+.btn-am:hover, .btn-am:active{
+    color: #000000;
+    text-decoration: underline;
+}
