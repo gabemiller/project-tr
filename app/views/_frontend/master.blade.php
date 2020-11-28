@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="hu">
     <head prefix="og: http://ogp.me/ns#">
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">
@@ -19,6 +19,9 @@
         {{ HTML::style('css/bootstrap-image-gallery.min.css'); }}
         {{ HTML::style('css/animate.css'); }}
         {{ HTML::style('css/site/divide.css'); }}
+        @if(isset($am)&&!empty($am))
+            {{ HTML::style('css/site/divide.am.min.css') }}
+        @endif
 
     </head>
     <body>
